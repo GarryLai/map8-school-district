@@ -337,7 +337,7 @@
                 }
             },
             F = {
-                API_URL: "https://map8.hwdes.tw",
+                API_URL: "https://map8.hwdes.tw", //HACK
                 get EVENTS_URL() {
                     return null
                 },
@@ -724,7 +724,7 @@
 
         function gt(t, e) {
             var r, n = new self.AbortController,
-                i = new self.Request(t.url.replace('https://api.map8.zone', 'https://map8.hwdes.tw'), {
+                i = new self.Request(t.url.replace('https://api.map8.zone', 'https://map8.hwdes.tw').replace('https://data.taipeiport.map8.zone/fonts', 'https://map8.hwdes.tw/fonts'), { //HACK
                     method: t.method || "GET",
                     body: t.body,
                     credentials: t.credentials,
@@ -21852,12 +21852,12 @@
                     sources: {
                         "go-life-maps-raster": {
                             type: "raster",
-                            url: "https://map8.hwdes.tw/styles/r/styles/go-life-maps-tw-style-std.json",
+                            url: "https://data.taipeiport.map8.zone/styles/go-life-maps-tw-style-std-non-encrypted.json", //HACK
                             tileSize: 256
                         }
                     },
-                    sprite: "https://map8.hwdes.tw/styles/go-life-maps-tw-style-std/sprite",
-                    glyphs: "https://map8.hwdes.tw/fonts/{fontstack}/{range}.pbf",
+                    sprite: "https://map8.hwdes.tw/styles/go-life-maps-tw-style-std/sprite", //HACK
+                    glyphs: "https://map8.hwdes.tw/styles/go-life-maps-tw-style-std/fonts/{fontstack}/{range}.pbf", //HACK
                     layers: [{
                         id: "go-life-maps-raster-style",
                         type: "raster",
@@ -21870,8 +21870,8 @@
                     }],
                     id: "golifemaps-tw-style-std-raster"
                 },
-                beneath: "https://map8.hwdes.tw/styles/go-life-maps-tw-style-std/speedLoadBeneath.json",
-                above: "https://map8.hwdes.tw/styles/go-life-maps-tw-style-std/speedLoadAbove.json"
+                beneath: "https://map8.hwdes.tw/styles/go-life-maps-tw-style-std/speedLoadBeneath.json", //HACK
+                above: "https://map8.hwdes.tw/styles/go-life-maps-tw-style-std/speedLoadAbove.json" //HACK
             },
             Vo = function(o) {
                 function r(e) {
