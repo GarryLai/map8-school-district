@@ -724,7 +724,7 @@
 
         function gt(t, e) {
             var r, n = new self.AbortController,
-                i = new self.Request(t.url.replace('https://api.map8.zone', 'https://map8.hwdes.tw').replace('https://data.taipeiport.map8.zone/fonts', 'https://map8.hwdes.tw/fonts'), { //HACK
+                i = new self.Request(t.url.replace('https://api.map8.zone', 'https://map8.hwdes.tw'), { //HACK
                     method: t.method || "GET",
                     body: t.body,
                     credentials: t.credentials,
@@ -21852,7 +21852,7 @@
                     sources: {
                         "go-life-maps-raster": {
                             type: "raster",
-                            url: "https://data.taipeiport.map8.zone/styles/go-life-maps-tw-style-std-non-encrypted.json", //HACK
+                            url: "https://map8.hwdes.tw/styles/go-life-maps-tw-style-std-non-encrypted.json", //HACK
                             tileSize: 256
                         }
                     },
