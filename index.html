@@ -14,101 +14,103 @@
     </style>
 </head>
 <body>
-    <div id="map"></div>
     <button type="button" onclick="toggleSchoolDistLayers('hideAll')">不顯示學區</button>
     <button type="button" onclick="toggleSchoolDistLayers('school_district_es')">國小學區</button>
     <button type="button" onclick="toggleSchoolDistLayers('school_district_jhs')">國中學區</button>
+    <div id="map"></div>
 
     <script type="text/javascript" src="gomp.js"></script>
     <script type="text/javascript">
         gomp.accessToken = ' ';
-        var map = new gomp.Map({
-            container: 'map',
-            style: 'https://map8.hwdes.tw/styles/go-life-maps-tw-style-std/style.json',
-            maxBounds: [[105, 15], [138.45858, 33.4]],
-            center: [121.54885, 25.037853],
-            zoom: 16,
-            minZoom: 6,
-            maxZoom: 19.99,
-            attributionControl: false
-        }).addControl(new gomp.AttributionControl({
-            compact: false
-        }));
-        map.addControl(new gomp.NavigationControl());
+		var schoolDistType = ["school_district_es", "school_district_jhs"];
+		var map;
+		navigator.geolocation.getCurrentPosition(function (position) {
+			map = new gomp.Map({
+				container: 'map',
+				style: 'https://map8.hwdes.tw/styles/go-life-maps-tw-style-std/style.json',
+				maxBounds: [[105, 15], [138.45858, 33.4]],
+				center: [position.coords.longitude, position.coords.latitude],
+				zoom: 16,
+				minZoom: 6,
+				maxZoom: 19.99,
+				attributionControl: false
+			}).addControl(new gomp.AttributionControl({
+				compact: false
+			}));
+			map.addControl(new gomp.NavigationControl());
 
-        var schoolDistType = ["school_district_es", "school_district_jhs"];
-
-        map.once("idle", function() {
-            map.addSource("school_dist", {
-                type: "vector",
-                url: "https://map8.hwdes.tw/data/school-district.json"
-            });
-            schoolDistType.forEach(function(name, i) {
-                map.addLayer({
-                    'id': name,
-                    'type': "fill",
-                    'source': "school_dist",
-                    'source-layer': name,
-                    'paint': {
-                        'fill-color': '#000000',
-                        'fill-opacity': 0.5
-                    },
-                    'layout': {
-                        'visibility': 'none'
-                    }
-                });
-                map.addLayer({
-                    'id': name + '_line_black',
-                    'type': "line",
-                    'source': "school_dist",
-                    'source-layer': name,
-                    'paint': {
-                        'line-color': (name == 'school_district_es') ? '#666' : '#333',
-                        'line-opacity': 1,
-                        'line-width': 0.5
-                    },
-                    'layout': {
-                        'line-join': 'miter',
-                        'visibility': 'none'
-                    }
-                });
-                map.addLayer({
-                    'id': name + '_line',
-                    'type': "line",
-                    'source': "school_dist",
-                    'source-layer': name,
-                    'paint': {
-                        'line-color': (name == 'school_district_es') ? '#ffff00' : '#ff6f00',
-                        'line-opacity': 1,
-                        'line-width': 3
-                    },
-                    'layout': {
-                        'line-join': 'miter',
-                        'visibility': 'none'
-                    }
-                }, name + '_line_black');
-                map.addLayer({
-                    'id': name + '_text',
-                    'type': "symbol",
-                    'source': "school_dist",
-                    'source-layer': name,
-                    'layout': {
-                        'text-field': [
-                            'format',
-                            ['get', 'schoolname'], {},
-                        ],
-                        'text-font': ["Open Sans Bold"],
-                        'text-size': 15,
-                        'visibility': 'none'
-                    },
-                    'paint': {
-                        'text-color': (name == 'school_district_es') ? '#ffff00' : '#fc7c21',
-                        'text-halo-color': '#000',
-                        'text-halo-width': 1
-                    }
-                });
-            });
-        });
+			map.once("idle", function() {
+				map.addSource("school_dist", {
+					type: "vector",
+					url: "https://map8.hwdes.tw/data/school-district.json"
+				});
+				schoolDistType.forEach(function(name, i) {
+					map.addLayer({
+						'id': name,
+						'type': "fill",
+						'source': "school_dist",
+						'source-layer': name,
+						'paint': {
+							'fill-color': '#000000',
+							'fill-opacity': 0.5
+						},
+						'layout': {
+							'visibility': 'none'
+						}
+					});
+					map.addLayer({
+						'id': name + '_line_black',
+						'type': "line",
+						'source': "school_dist",
+						'source-layer': name,
+						'paint': {
+							'line-color': (name == 'school_district_es') ? '#666' : '#333',
+							'line-opacity': 1,
+							'line-width': 0.5
+						},
+						'layout': {
+							'line-join': 'miter',
+							'visibility': 'none'
+						}
+					});
+					map.addLayer({
+						'id': name + '_line',
+						'type': "line",
+						'source': "school_dist",
+						'source-layer': name,
+						'paint': {
+							'line-color': (name == 'school_district_es') ? '#ffff00' : '#ff6f00',
+							'line-opacity': 1,
+							'line-width': 3
+						},
+						'layout': {
+							'line-join': 'miter',
+							'visibility': 'none'
+						}
+					}, name + '_line_black');
+					map.addLayer({
+						'id': name + '_text',
+						'type': "symbol",
+						'source': "school_dist",
+						'source-layer': name,
+						'layout': {
+							'text-field': [
+								'format',
+								['get', 'schoolname'], {},
+							],
+							'text-font': ["Open Sans Bold"],
+							'text-size': 15,
+							'visibility': 'none'
+						},
+						'paint': {
+							'text-color': (name == 'school_district_es') ? '#ffff00' : '#fc7c21',
+							'text-halo-color': '#000',
+							'text-halo-width': 1
+						}
+					});
+				});
+			});
+		});
 
         function toggleSchoolDistLayers(target) {
             if (target == schoolDistType[0]) {
