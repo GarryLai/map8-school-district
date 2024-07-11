@@ -21,10 +21,7 @@
 
     <script type="text/javascript" src="gomp.js"></script>
     <script type="text/javascript">
-        gomp.accessToken = ' ';
-		var schoolDistType = ["school_district_es", "school_district_jhs"];
-		var map;
-		navigator.geolocation.getCurrentPosition(function (position) {
+		function drawMap(position={coords:{longitude:121.548771, latitude:25.037893}}) {
 			map = new gomp.Map({
 				container: 'map',
 				style: 'https://map8.hwdes.tw/styles/go-life-maps-tw-style-std/style.json',
@@ -110,6 +107,15 @@
 					});
 				});
 			});
+		}
+	
+        gomp.accessToken = ' ';
+		var schoolDistType = ["school_district_es", "school_district_jhs"];
+		var map;
+		navigator.geolocation.getCurrentPosition(function (position) {
+			drawMap(position);
+		}, function () {
+			drawMap();
 		});
 
         function toggleSchoolDistLayers(target) {
