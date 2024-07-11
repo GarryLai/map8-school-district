@@ -18,9 +18,30 @@
     <button type="button" onclick="toggleSchoolDistLayers('school_district_es')">國小學區</button>
     <button type="button" onclick="toggleSchoolDistLayers('school_district_jhs')">國中學區</button>
     <div id="map"></div>
+	
+	<script type="text/javascript">
+	fetch('https://map8.hwdes.tw/maps/js/gomp.js')
+	.then(res => {
+		return res.text();
+	}).then(result => {
+		result = result.replaceAll("t.url", "t.url.replace('api.map8.zone', 'map8.hwdes.tw')");
+		result = result.replaceAll('throw new Error("An Map8 API key is required.")', "false");
+		result = result.replaceAll('throw new Error("您需要 Map8 API key 以使用 Map8 -- 見 https://map8.zone，或是 https://www.goyourlife.com/zh-TW/map-contact/ 跟我們聯絡")', "false");
+		eval(result);
+	}).then(result => {
+		navigator.geolocation.getCurrentPosition(function (position) {
+			drawMap(position);
+		}, function () {
+			//ppp503: Write your code here.
+			drawMap();
+		});
+	});
+	</script>
 
-    <script type="text/javascript" src="gomp.js"></script>
     <script type="text/javascript">
+		var schoolDistType = ["school_district_es", "school_district_jhs"];
+		var map;
+	
 		function drawMap(position={coords:{longitude:121.548771, latitude:25.037893}}) {
 			map = new gomp.Map({
 				container: 'map',
@@ -108,15 +129,6 @@
 				});
 			});
 		}
-	
-        gomp.accessToken = ' ';
-		var schoolDistType = ["school_district_es", "school_district_jhs"];
-		var map;
-		navigator.geolocation.getCurrentPosition(function (position) {
-			drawMap(position);
-		}, function () {
-			drawMap();
-		});
 
         function toggleSchoolDistLayers(target) {
             if (target == schoolDistType[0]) {
